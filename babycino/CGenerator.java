@@ -69,11 +69,16 @@ public class CGenerator implements MachineGenerator {
             w.println("void " + mangle(name) + "() {");
 
             // Declare locals for "registers", except r0.
-            w.print("    word vl[" + (block.getMaxVL()+1) + "] = {0");
-            for (int n = 0; n < block.getMaxVL(); n++) {
-                w.print(",0");
+            if (block.getMaxVL() < 0) {
+                w.println("    word vl[0];");
             }
-            w.println("};");
+            else {
+                w.print("    word vl[" + (block.getMaxVL()+1) + "] = {0");
+                for (int n = 0; n < block.getMaxVL(); n++) {
+                    w.print(",0");
+                }
+                w.println("};");
+            }
             for (int n = block.getMaxR(); n >= 1; n--) {
                 w.println("    word r" + n + " = {0};");
             }
