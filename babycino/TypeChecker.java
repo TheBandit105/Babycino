@@ -21,7 +21,7 @@ public class TypeChecker extends MiniJavaBaseListener {
 
     // Stack of unprocessed types, corresponding to checked subexpressions.
     private Stack<Type> types;
-    
+
     public TypeChecker(SymbolTable sym) {
         this.sym = sym;
         this.method = null;
@@ -49,12 +49,12 @@ public class TypeChecker extends MiniJavaBaseListener {
             System.exit(1);
         }
     }
-    
+
     @Override
     public void enterClassDeclaration(MiniJavaParser.ClassDeclarationContext ctx) {
         this.current = this.sym.get(ctx.identifier(0).getText());
     }
-    
+
     @Override
     public void exitClassDeclaration(MiniJavaParser.ClassDeclarationContext ctx) {
         this.current = null;
@@ -104,7 +104,7 @@ public class TypeChecker extends MiniJavaBaseListener {
         Type t = this.types.pop();
         this.check(t.isInt(), ctx, "Expected argument of println to be int; actual type: " + t);
     }
-    
+
     @Override
     public void exitStmtAssign(MiniJavaParser.StmtAssignContext ctx) {
         Type lhs = this.identifierType(ctx.identifier());
@@ -123,6 +123,13 @@ public class TypeChecker extends MiniJavaBaseListener {
         this.check(rhs.isInt(), ctx, "Expected int to be assigned to int array element; actual type: " + rhs);
     }
 
+    @Override
+    public void exitStmtIncrement(MiniJavaParser.StmtIncrementContext ctx) {
+        Type t = this.identifierType(ctx.identifier());
+        this.check(t.isInt(), ctx, "Expected argument of println to be int; actual type: " + t);
+    }
+
+//this.check(lhs.compatibleWith(rhs)
     // Expressions:
 
     @Override
@@ -149,17 +156,22 @@ public class TypeChecker extends MiniJavaBaseListener {
                 this.check(lhs.isBoolean(), ctx, "Expected boolean as 1st argument to &&; actual type: " + lhs);
                 this.check(rhs.isBoolean(), ctx, "Expected boolean as 2nd argument to &&; actual type: " + rhs);
                 break;
+            case ">=":
+                this.check(lhs.isInt(), ctx, "Expected int as 1st argument to " + op + "; actual type: " + lhs);
+                this.check(rhs.isInt(), ctx, "Expected int as 2nd argument to " + op + "; actual type: " + rhs);
+                break;
             default:
                 this.check(lhs.isInt(), ctx, "Expected int as 1st argument to " + op + "; actual type: " + lhs);
                 this.check(rhs.isInt(), ctx, "Expected int as 2nd argument to " + op + "; actual type: " + rhs);
                 break;
         }
-        
+
         switch (op) {
             // Only AND and less-than return booleans;
             // all other operations return ints.
             case "&&":
             case "<":
+            case ">=":
                 this.types.push(new Type(Kind.BOOLEAN));
                 break;
             default:
@@ -191,7 +203,7 @@ public class TypeChecker extends MiniJavaBaseListener {
 
         // Discard the null marker.
         this.types.pop();
-        
+
         // Find out what the signature of the method is.
         Type lhs = args.pop();
         if (!lhs.isObject()) {
@@ -206,10 +218,10 @@ public class TypeChecker extends MiniJavaBaseListener {
             this.types.push(new Type(this.sym.get("Object")));
             return;
         }
-        
+
         // Store the static type of the object for code generation.
         this.sym.setStaticType(ctx, lhs);
-        
+
         // Iterate through args and method's params. Check length matches. Check types compatible.
         Set<Map.Entry<String, Type>> params = target.getParams();
         if (!(params.size() == args.size())) {
@@ -240,10 +252,10 @@ public class TypeChecker extends MiniJavaBaseListener {
     public void exitExpArrayIndex(MiniJavaParser.ExpArrayIndexContext ctx) {
         Type index = this.types.pop();
         Type arr = this.types.pop();
-        
+
         this.check(arr.isIntArray(), ctx, "Expected int[] for target of array lookup; actual type: " + arr);
         this.check(index.isInt(), ctx, "Expected int for index in array lookup; actual type: " + index);
-        
+
         this.types.push(new Type(Kind.INT));
     }
 
@@ -330,4 +342,3 @@ public class TypeChecker extends MiniJavaBaseListener {
     }
 
 }
-
