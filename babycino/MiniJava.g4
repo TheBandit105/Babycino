@@ -40,6 +40,7 @@ expression :
   | expression ( '*' ) expression                                         # ExpBinOp
   | expression ( '+' | '-' ) expression                                   # ExpBinOp
   | expression ( '<' ) expression                                         # ExpBinOp
+  | expression ( '>=' ) expression                                        # ExpBinOp
   | expression ( '&&' ) expression                                        # ExpBinOp
   | INT        # ExpConstInt
   | 'true'     # ExpConstTrue
@@ -48,7 +49,6 @@ expression :
   | 'this'     # ExpThis
   | 'new' 'int' '[' expression ']' # ExpNewArray
   | 'new' identifier '(' ')'       # ExpNewObject
-  | expression ( '>=' ) expression                                        # ExpBinOp
   ;
 
 identifier :

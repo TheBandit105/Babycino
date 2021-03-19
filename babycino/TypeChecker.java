@@ -126,7 +126,7 @@ public class TypeChecker extends MiniJavaBaseListener {
     @Override
     public void exitStmtIncrement(MiniJavaParser.StmtIncrementContext ctx) {
         Type t = this.identifierType(ctx.identifier());
-        this.check(t.isInt(), ctx, "Expected argument of println to be int; actual type: " + t);
+        this.check(t.isInt(), ctx, "Expected argument of increment to be int; actual type: " + t);
     }
 
 //this.check(lhs.compatibleWith(rhs)
@@ -140,7 +140,7 @@ public class TypeChecker extends MiniJavaBaseListener {
     @Override
     public void exitExpArrayLength(MiniJavaParser.ExpArrayLengthContext ctx) {
         Type t = this.types.pop();
-        this.check(t.isIntArray(), ctx, "Expected length to be applied to expression of type int[]; actual type: " + t);
+        this.check(t.isIntArray(), ctx, "Expected length to be applied to expression of type int; actual type: " + t);
         this.types.push(new Type(Kind.INT));
     }
 
@@ -155,10 +155,6 @@ public class TypeChecker extends MiniJavaBaseListener {
             case "&&":
                 this.check(lhs.isBoolean(), ctx, "Expected boolean as 1st argument to &&; actual type: " + lhs);
                 this.check(rhs.isBoolean(), ctx, "Expected boolean as 2nd argument to &&; actual type: " + rhs);
-                break;
-            case ">=":
-                this.check(lhs.isInt(), ctx, "Expected int as 1st argument to " + op + "; actual type: " + lhs);
-                this.check(rhs.isInt(), ctx, "Expected int as 2nd argument to " + op + "; actual type: " + rhs);
                 break;
             default:
                 this.check(lhs.isInt(), ctx, "Expected int as 1st argument to " + op + "; actual type: " + lhs);
