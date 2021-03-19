@@ -140,7 +140,7 @@ public class TypeChecker extends MiniJavaBaseListener {
     @Override
     public void exitExpArrayLength(MiniJavaParser.ExpArrayLengthContext ctx) {
         Type t = this.types.pop();
-        this.check(t.isIntArray(), ctx, "Expected length to be applied to expression of type int; actual type: " + t);
+        this.check(t.isIntArray(), ctx, "Expected length to be applied to expression of type int[]; actual type: " + t);
         this.types.push(new Type(Kind.INT));
     }
 
