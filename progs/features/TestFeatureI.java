@@ -17,6 +17,4 @@ class Test {
 	}
 	return result;
     }
-
 }
-

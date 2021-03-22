@@ -1,0 +1,7 @@
+ubuntu@ubuntu:~/babycino_coursework/babycino$ ./build.sh
+ubuntu@ubuntu:~/babycino_coursework/babycino$ ./babycino.sh progs/features/TestBugD1.java progs/features/TestBugD1.c
+Expected int as 1st argument to >=; actual type: boolean
+Context: x>=y
+Expected int as 2nd argument to >=; actual type: boolean
+Context: x>=y
+Exiting due to earlier error.

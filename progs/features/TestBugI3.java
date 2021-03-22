@@ -1,20 +1,20 @@
-class TestFeatureD {
+class Main {
     public static void main(String[] a) {
-	       System.out.println(new Test().f());
+	System.out.println(new TestBugI3().f());
     }
 }
 
-class Test {
+class TestBugI3 {
 
   public int f() {
 	int result;
 	int count;
 	result = 0;
-	count = 1;
-	while (10 >= count) {
+	while (count < 11) {
 	    result = result + count;
-	    count = count + 1;
-	 }
+	    count++;
+	}
 	return result;
+
   }
 }

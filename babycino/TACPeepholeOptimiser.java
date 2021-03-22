@@ -98,6 +98,8 @@ public class TACPeepholeOptimiser implements TACBlockOptimiser {
                 return arg1 - arg2;
             case "*":
                 return arg1 * arg2;
+            case ">=":
+                return (arg1 >= arg2) ? 1 : 0;
             // We should never encounter "offset", as we don't know any memory
             // addresses at compile-time.
             case "offset":
@@ -180,7 +182,7 @@ public class TACPeepholeOptimiser implements TACBlockOptimiser {
             }
             TACOp op1 = code.get(n);
             TACOp op2 = code.get(n+1);
-            
+
             // Check the instructions hae form: mov r1, k; if (r1 = 0) jmp lab;
             if (!((op1.getType() == TACOpType.IMMED) && (op2.getType() == TACOpType.JZ) && (op1.getR1().equals(op2.getR1())))) {
                 return false;
@@ -218,6 +220,5 @@ public class TACPeepholeOptimiser implements TACBlockOptimiser {
             }
         }
     }
-    
-}
 
+}

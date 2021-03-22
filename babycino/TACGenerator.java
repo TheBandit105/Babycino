@@ -200,37 +200,39 @@ public class TACGenerator extends MiniJavaBaseVisitor<TACBlock> {
 
     @Override
     public TACBlock visitStmtIncrement(MiniJavaParser.StmtIncrementContext ctx) {
-    	TACBlock result = new TACBlock(); // TAC block being called due to parsing of an increment statement
+    	TACBlock out = new TACBlock(); // TAC block being called due to parsing of an increment statement
 
       // Generate code for the expression to assign.
     	String icrmt = this.genreg();
-    	result.add(TACOp.immed(icrmt, 1));
+    	out.add(TACOp.immed(icrmt, 1));
 
         // Is the identifier a method local variable or a class instance variable?
-        String id = ctx.identifier().getText();
-        if (this.method.hasVar(id)) {
-            // Variable is stored in vl register.
-            result.add(TACOp.binop("vl" + this.method.getVarIndex(id), "vl" + this.method.getVarIndex(id), icrmt, 1));
+        String idDesig = ctx.identifier().getText();
+        if (this.current.hasAnyVar(idDesig)) {
+          // Variable is stored in memory, indexed by this (vl0).
+          String dest = this.genreg();
+          String idx = this.genreg();
+
+          String num = this.genreg();
+          String sum = this.genreg();
+
+          out.add(TACOp.immed(idx, this.current.getVarIndex(idDesig)));
+          out.add(TACOp.offset(dest, "vl0", idx));
+          out.add(TACOp.load(sum, dest));
+          out.add(TACOp.binop(num, sum, icrmt, 1));
+          out.add(TACOp.store(dest, num)); // value found in dest stored to memory address of num
+
         }
-        else if (this.current.hasAnyVar(id)) {
-            // Variable is stored in memory, indexed by this (vl0).
-            String dest = this.genreg();
-            String idx = this.genreg();
-
-            String num = this.genreg();
-            String sum = this.genreg();
-
-            result.add(TACOp.immed(idx, this.current.getVarIndex(id)));
-            result.add(TACOp.offset(dest, "vl0", idx));
-            result.add(TACOp.load(sum, dest)); 
-            result.add(TACOp.binop(num, sum, icrmt, 1));
-            result.add(TACOp.store(dest, num)); // value found in dest stored to memory address of num
+        else if (this.method.hasVar(idDesig)) {
+          // Variable is stored in vl register.
+          out.add(TACOp.binop("vl" + this.method.getVarIndex(idDesig), "vl" + this.method.getVarIndex(idDesig), icrmt, 1));
         }
         else {
-            System.err.println("Unrecognised variable: " + id);
+            System.err.println("Error! Unrecognised variable: " + idDesig);
+            System.err.println("Please check and change the variable/value, then try again.");
             throw new InternalError();
         }
-        return result;
+        return out;
     }
 
 
