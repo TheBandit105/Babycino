@@ -79,26 +79,24 @@ MAIN:
 }
 
 void TestBugI2_f() {
-    word vl[3] = {0,0,0};
-    word r5 = {0};
+    word vl[2] = {0,0};
     word r4 = {0};
     word r3 = {0};
     word r2 = {0};
     word r1 = {0};
     int p;
-    for(p = 0; p <= 2 && p < 1; p++) {
+    for(p = 0; p <= 1 && p < 1; p++) {
         vl[p] = param[p];
     }
     next_param = 0;
 TestBugI2_f:
-    vl[1].n = 0;
-    vl[2].n = 1;
+    vl[1].n = 1;
 TestBugI2_f_0:
-    r3.n = 11;
-    r4.n = vl[2].n < r3.n;
-    if (r4.n == 0) goto TestBugI2_f_1;
-    r5.n = vl[1].n + vl[2].n;
-    vl[1] = r5;
+    r2.n = 10;
+    r3.n = vl[1].n < r2.n;
+    if (r3.n == 0) goto TestBugI2_f_1;
+    r4.n = 1;
+    vl[1].n = vl[1].n + r4.n;
     goto TestBugI2_f_0;
 TestBugI2_f_1:
     r0 = vl[1];

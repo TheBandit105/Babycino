@@ -1,0 +1,6 @@
+ubuntu@ubuntu:~/babycino_coursework/babycino$ ./build.sh
+ubuntu@ubuntu:~/babycino_coursework/babycino$ ./babycino.sh progs/features/TestBugI3.java progs/features/TestBugI3.c
+ubuntu@ubuntu:~/babycino_coursework/babycino$ gcc progs/features/TestBugI3.c -o progs/features/TestBugI3.exe
+ubuntu@ubuntu:~/babycino_coursework/babycino$ ./progs/features/TestBugI3.exe
+4
+

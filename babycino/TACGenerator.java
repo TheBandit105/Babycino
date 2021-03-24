@@ -198,6 +198,7 @@ public class TACGenerator extends MiniJavaBaseVisitor<TACBlock> {
         return result;
     }
 
+    // Increment TAC block carries out the functionality of the increment operand.
     @Override
     public TACBlock visitStmtIncrement(MiniJavaParser.StmtIncrementContext ctx) {
     	TACBlock out = new TACBlock(); // TAC block being called due to parsing of an increment statement
@@ -220,7 +221,7 @@ public class TACGenerator extends MiniJavaBaseVisitor<TACBlock> {
           out.add(TACOp.offset(dest, "vl0", idx));
           out.add(TACOp.load(sum, dest));
           out.add(TACOp.binop(num, sum, icrmt, 1));
-          out.add(TACOp.store(dest, num)); // value found in dest stored to memory address of num
+          out.add(TACOp.store(dest, num));
 
         }
         else if (this.method.hasVar(idDesig)) {

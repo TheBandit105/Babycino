@@ -1,20 +1,21 @@
 class Main {
-    public static void main(String[] a) {
-	System.out.println(new TestBugI3().f());
+    public static void main(String[] args) {
+	     System.out.println(new TestBugI3().f());
     }
 }
 
 class TestBugI3 {
 
-  public int f() {
-	int result;
-	int count;
-	result = 0;
-	while (count < 11) {
-	    result = result + count;
-	    count++;
-	}
-	return result;
+  // Test to see if x gets modified. If x remains as 0,
+  // then x isn't being modified.
 
+  public int f() {
+	int x;
+  x++;
+  x++;
+  x++;
+  x++;
+
+	return x; // Returns the value of x.
   }
 }

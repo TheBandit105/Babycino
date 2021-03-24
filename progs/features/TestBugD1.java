@@ -6,6 +6,9 @@ class Main {
 
 class TestBugD1 {
 
+  // Test to see if compiler prevents bug that allows comparisons of booleans.
+  // If compiler works correctly, should return type errors.
+
   public int f() {
 	boolean x;
 	boolean y;
@@ -19,6 +22,8 @@ class TestBugD1 {
       System.out.println(0);
 	}
 
+  // This 0 printed has nothing to do with the compiler working correctly.
+  // It's an added feature to make sure the test bug is being compiled.
 	return 0;
   }
 }

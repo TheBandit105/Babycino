@@ -6,6 +6,10 @@ class Main {
 
 class TestBugD2 {
 
+  // Test to see if compiler prevents bug that allows the statement, x = y,
+  //  to return false. If compiler works correctly, should return the value of 1,
+  //  indicating that x = y is true.
+
   public int f() {
 	int x;
 	int y;
@@ -19,6 +23,8 @@ class TestBugD2 {
       System.out.println(0);
   }
 
+  // This 0 printed has nothing to do with the compiler working correctly.
+  // It's an added feature to make sure the test bug is being compiled.
   return 0;
   }
 }

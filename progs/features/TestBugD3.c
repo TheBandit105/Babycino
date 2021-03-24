@@ -79,7 +79,8 @@ MAIN:
 }
 
 void TestBugD3_f() {
-    word vl[4] = {0,0,0,0};
+    word vl[5] = {0,0,0,0,0};
+    word r9 = {0};
     word r8 = {0};
     word r7 = {0};
     word r6 = {0};
@@ -89,27 +90,28 @@ void TestBugD3_f() {
     word r2 = {0};
     word r1 = {0};
     int p;
-    for(p = 0; p <= 3 && p < 1; p++) {
+    for(p = 0; p <= 4 && p < 1; p++) {
         vl[p] = param[p];
     }
     next_param = 0;
 TestBugD3_f:
-    vl[1].n = 3;
-    vl[2].n = 3;
-    vl[3].n = 2;
-    r4.n = vl[1].n >= vl[3].n;
-    r6 = r4;
-    if (r6.n == 0) goto TestBugD3_f_0;
-    r5.n = vl[1].n >= vl[2].n;
-    r6 = r5;
+    vl[1].n = 5;
+    vl[2].n = 4;
+    vl[3].n = 3;
+    vl[4].n = 2;
+    r5.n = vl[2].n >= vl[3].n;
+    r7 = r5;
+    if (r7.n == 0) goto TestBugD3_f_0;
+    r6.n = vl[1].n >= vl[4].n;
+    r7 = r6;
 TestBugD3_f_0:
-    if (r6.n == 0) goto TestBugD3_f_1;
-    r7.n = 1;
-    printf("%d\n", r7);
+    if (r7.n == 0) goto TestBugD3_f_1;
+    r8.n = 1;
+    printf("%d\n", r8);
     goto TestBugD3_f_2;
 TestBugD3_f_1:
-    r8.n = 0;
-    printf("%d\n", r8);
+    r9.n = 0;
+    printf("%d\n", r9);
 TestBugD3_f_2:
     r0.n = 0;
     return;

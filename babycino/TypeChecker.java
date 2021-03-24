@@ -123,14 +123,13 @@ public class TypeChecker extends MiniJavaBaseListener {
         this.check(rhs.isInt(), ctx, "Expected int to be assigned to int array element; actual type: " + rhs);
     }
 
+    // This increment type checker method checks to see if the type used in the increment is int.
+    // If the type is not int, throws type error as shown in the code below.
     @Override
     public void exitStmtIncrement(MiniJavaParser.StmtIncrementContext ctx) {
         Type t = this.identifierType(ctx.identifier());
         this.check(t.isInt(), ctx, "Expected argument of increment to be int; actual type: " + t);
     }
-
-//this.check(lhs.compatibleWith(rhs)
-    // Expressions:
 
     @Override
     public void exitExpConstTrue(MiniJavaParser.ExpConstTrueContext ctx) {
@@ -165,6 +164,8 @@ public class TypeChecker extends MiniJavaBaseListener {
         switch (op) {
             // Only AND and less-than return booleans;
             // all other operations return ints.
+            // If >= has boolean variables on either side, type errors thrown,
+            // as shown lines 159 and 160.
             case "&&":
             case "<":
             case ">=":

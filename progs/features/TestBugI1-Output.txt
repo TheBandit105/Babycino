@@ -1,0 +1,8 @@
+ubuntu@ubuntu:~/babycino_coursework/babycino$ ./build.sh
+ubuntu@ubuntu:~/babycino_coursework/babycino$ ./babycino.sh progs/features/TestBugI1.java progs/features/TestBugI1.c
+Expected argument of increment to be int; actual type: boolean
+Context: x++;
+Return type of TestBugI1.f expected to be compatible with int; actual type: boolean
+Context: publicintf(){booleanx;x++;returnx;}
+Exiting due to earlier error.
+
